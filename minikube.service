@@ -1,0 +1,14 @@
+[Unit]
+Description=Auto starts Minikube Kubernetes Cluster
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+ExecStart=/usr/local/bin/minikube start --driver=docker --wait=all
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
