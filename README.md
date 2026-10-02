@@ -13,6 +13,7 @@
     - [Documents ###](#documents-)
   - [Jenkins CI/CD Pipeline](#jenkins-cicd-pipeline)
     - [Installing Docker](#installing-docker)
+    - [Establishing The Pipeline](#establishing-the-pipeline)
 
 ## The Plan ##
 
@@ -97,3 +98,12 @@ The Jenkins container is then started with this command in order to set up ports
 ```bash
 docker run -d --name jenkins_with_docker --user root -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins-with-docker
 ```
+
+### Establishing The Pipeline ###
+
+In Jenkins, the pipeline is set to trigger manually or whenever a push to main is performed. The pipeline is set to execute the `Jenkinsfile` in the repository, which can be found [here](Jenkinsfile).
+
+The file firstly disables the automatic checkout, this will be explained momentarily. Next, it cleans the workspace in case it contains an older version of the downloaded repo.
+
+After that, it downloads the current version of the repo into the runner's working space. After that happened, the agent then runs a `docker build` command.
+

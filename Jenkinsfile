@@ -30,5 +30,34 @@ pipeline {
             }
         }
 
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t sparta-tttapp .'
+            }
+        }
+
+        stage('Publish Docker Image') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-credentials',
+                        usernameVariable: 'DOCKER_USERNAME',
+                        passwordVariable: 'DOCKER_PASSWORD'
+                    )
+                ]) 
+                {
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+                        docker tag sparta-tttapp "$DOCKER_USERNAME/sparta-tttapp:latest"
+
+                        docker push "$DOCKER_USERNAME/sparta-tttapp:latest"
+
+                        docker logout
+                    '''
+                }
+            }
+        }
+
     }
 }
