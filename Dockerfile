@@ -17,11 +17,11 @@ WORKDIR /usr/src/app
 # COPY <local path> <container path>
 COPY app /usr/src/app
 
-# install dependencies with npm 
+# Install dependencies with npm 
 
 RUN npm install
 
-# expose port 
+# Expose port 
 
 EXPOSE 3000
 
