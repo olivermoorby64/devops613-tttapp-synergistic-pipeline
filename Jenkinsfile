@@ -2,6 +2,11 @@ pipeline {
 
     agent any
 
+    // Stop the automatic checkout
+    options {
+        skipDefaultCheckout(true)
+    }
+
     stages {
 
         // When dealing with repos, always delete the stored old one first
